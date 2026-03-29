@@ -1,7 +1,11 @@
 # 🔐 Auth API with JWT & Role-Based Access
-🚀 A production-style authentication API built with FastAPI featuring JWT authentication and role-based access control.
 
-A backend project where I implemented a complete authentication system from scratch using FastAPI and PostgreSQL. The goal was to understand how real-world APIs handle login, security, and access control.
+---
+
+## 🚀 Overview
+This project demonstrates a complete authentication system with JWT and role-based access control. It includes user registration, login, protected routes, and admin-level authorization.
+
+🚀 A backend project where I implemented a complete authentication system from scratch using FastAPI and PostgreSQL. The goal was to understand how real-world APIs handle login, security, and access control.
 
 ---
 
@@ -33,6 +37,20 @@ A backend project where I implemented a complete authentication system from scra
 | POST   | /login    | Login and get JWT token |
 | GET    | /profile  | Protected route (user)  |
 | GET    | /admin    | Admin-only route        |
+
+---
+
+## 🏗️ Project Structure
+
+app/
+├── routes/        # API endpoints  
+├── models/        # Database models  
+├── schemas/       # Request/response schemas  
+├── dependencies/  # Auth & security logic  
+├── utils/         # Helper functions  
+├── config.py      # Environment config  
+├── database.py    # DB connection  
+└── main.py        # Entry point  
 
 ---
 
@@ -76,10 +94,22 @@ uvicorn app.main:app --reload
 - Designed secure authentication flow using JWT
 - Implemented role-based authorization (Admin/User)
 - Structured project with scalable FastAPI architecture
+- 
+---
+
+## 🔐 Security Highlights
+
+- Passwords are hashed using bcrypt  
+- JWT tokens used for authentication  
+- Protected routes using token validation  
+- Role-based access control (Admin/User)
+
+---
 
 ## 📸 API Preview
 ![API Screenshot](screenshot.png)
 
+---
 
 ## 🧠 What I Learned
 
