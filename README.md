@@ -79,7 +79,7 @@ uvicorn app.main:app --reload
 
 ## 📸 API Preview
 ![API Screenshot](screenshot.png)
-<img width="1898" height="822" alt="image" src="https://github.com/user-attachments/assets/8847be63-3766-4dfa-bd00-7b17876bbccc" />
+
 
 ## 🧠 What I Learned
 
