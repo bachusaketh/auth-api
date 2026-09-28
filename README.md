@@ -6,9 +6,8 @@ The project was built from scratch to understand how authentication and authoriz
 
 ## 🚀 Live Demo
 
-**API:** https://auth-api-u9ot.onrender.com
-
-**Swagger Documentation:** https://auth-api-u9ot.onrender.com/docs
+- **API:** https://auth-api-u9ot.onrender.com
+- **Swagger Documentation:** https://auth-api-u9ot.onrender.com/docs
 
 ---
 
@@ -65,70 +64,64 @@ The authentication flow works as follows:
 User
  │
  ├── Register
- │      ↓
+ │     ↓
  │   Password
- │      ↓
+ │     ↓
  │   bcrypt hashing
- │      ↓
+ │     ↓
  │   PostgreSQL
  │
  └── Login
-        ↓
+       ↓
      Verify password
-        ↓
+       ↓
      Generate JWT
-        ↓
+       ↓
      Access Token
-        ↓
+       ↓
    ┌─────────────────────┐
    │ Authorization:      │
    │ Bearer <token>      │
    └─────────────────────┘
-        ↓
+       ↓
    JWT validation
-        ↓
+       ↓
    Check user role
-        ↓
+       ↓
    Protected endpoint
 ```
 
 After successful login, the API returns a JWT access token.
 
-The token is sent with protected requests using:
+The token is sent with protected requests using the header:
 
+```http
 Authorization: Bearer <your_token>
+```
 
 FastAPI validates the token before allowing access to protected endpoints.
 
 ---
 
-👥 Role-Based Access Control
+## 👥 Role-Based Access Control
 
-The API supports two roles:
+The API supports two distinct roles:
 
-User
+- **User:** Regular authenticated users can access `GET /profile`
+- **Admin:** Administrators can access `GET /admin`
 
-Regular authenticated users can access:
+### Status Codes & Access Rules
 
-GET /profile
+- **`403 Forbidden`**: Returned if an authenticated user without admin privileges attempts to access `/admin`.
+- **`401 Unauthorized`**: Returned when requests have missing, invalid, or expired authentication credentials.
 
-Admin
+This separates **authentication** (*who you are*) from **authorization** (*what you're allowed to access*).
 
-Administrators can access:
+---
 
-GET /admin
+## 🏗️ Project Structure
 
-If an authenticated user without admin privileges attempts to access /admin, the API returns:
-
-403 Forbidden
-
-Requests with missing, invalid, or expired authentication credentials return:
-
-401 Unauthorized
-
-This separates authentication (who you are) from authorization (what you're allowed to access).
-
-🏗️ Project Structure
+```text
 auth-api/
 │
 ├── app/
@@ -161,42 +154,65 @@ auth-api/
 ├── requirements.txt
 ├── README.md
 └── screenshot.png
-⚙️ Run Locally
-1. Clone the repository
-git clone https://github.com/bachusaketh/auth-api.git
+```
+
+---
+
+## ⚙️ Run Locally
+
+### 1. Clone the repository
+```bash
+git clone [https://github.com/bachusaketh/auth-api.git](https://github.com/bachusaketh/auth-api.git)
 cd auth-api
-2. Create a virtual environment
+```
+
+### 2. Create a virtual environment
+```bash
 python -m venv venv
+```
 
-Activate it on Windows:
+Activate it:
+- **Windows:**
+  ```bash
+  venv\Scripts\activate
+  ```
+- **macOS / Linux:**
+  ```bash
+  source venv/bin/activate
+  ```
 
-venv\Scripts\activate
-3. Install dependencies
+### 3. Install dependencies
+```bash
 python -m pip install -r requirements.txt
-4. Configure environment variables
+```
 
-Create a .env file in the project root:
+### 4. Configure environment variables
+Create a `.env` file in the project root:
 
+```env
 DATABASE_URL=postgresql://postgres:yourpassword@localhost/auth_db
 SECRET_KEY=your_secret_key
+```
 
-Never commit .env or expose database credentials and secret keys publicly.
+> Never commit `.env` or expose database credentials and secret keys publicly.
 
-5. Start the API
+### 5. Start the API
+```bash
 uvicorn app.main:app --reload
+```
 
-The API will be available at:
+- **API Base URL:** `http://127.0.0.1:8000`
+- **Interactive Swagger Docs:** `http://127.0.0.1:8000/docs`
 
-http://127.0.0.1:8000
+---
 
-Swagger documentation:
+## ☁️ Deployment
 
-http://127.0.0.1:8000/docs
-☁️ Deployment
+The API is deployed using **Render** with a managed PostgreSQL database.
 
-The API is deployed using Render with a managed PostgreSQL database.
+### Deployment Architecture
 
-Deployment Architecture
+```text
 GitHub Repository
        │
        ↓
@@ -207,68 +223,77 @@ FastAPI + Uvicorn
        │
        ↓
 Render PostgreSQL
+```
 
 Environment variables are configured through Render rather than committed to the repository.
 
-Live API
+- **Live API:** https://auth-api-u9ot.onrender.com
+- **Live Swagger Documentation:** https://auth-api-u9ot.onrender.com/docs
 
-https://auth-api-u9ot.onrender.com
+---
 
-Live Swagger Documentation
+## 🔒 Security Highlights
 
-https://auth-api-u9ot.onrender.com/docs
+- Passwords are never stored in plain text
+- Passwords are hashed using **bcrypt**
+- JWT tokens are used for stateless authentication
+- Protected routes validate JWT credentials before access
+- Role-based authorization restricts admin resources
+- Secrets are stored using environment variables
+- `.env` is excluded from version control
+- Authentication and authorization logic are separated using FastAPI dependencies
 
-🔒 Security Highlights
-Passwords are never stored in plain text
-Passwords are hashed using bcrypt
-JWT tokens are used for stateless authentication
-Protected routes validate JWT credentials before access
-Role-based authorization restricts admin resources
-Secrets are stored using environment variables
-.env is excluded from version control
-Authentication and authorization logic are separated using FastAPI dependencies
-📸 API Preview
+---
 
-🧠 Key Implementation Concepts
+## 📸 API Preview
+
+![API Preview](screenshot.png)
+
+---
+
+## 🧠 Key Implementation Concepts
 
 This project helped me understand and implement:
 
-JWT structure and token-based authentication
-Authentication vs authorization
-Password hashing with bcrypt
-Stateless authentication
-FastAPI dependency injection
-Protected API routes
-Role-based access control
-PostgreSQL integration with SQLAlchemy
-Pydantic request validation
-HTTP 401 vs 403 responses
-API testing with Swagger/OpenAPI
-Environment-based configuration
-Deploying a Python API and PostgreSQL database to the cloud
-🔮 Future Improvements
+- JWT structure and token-based authentication
+- Authentication vs authorization
+- Password hashing with bcrypt
+- Stateless authentication
+- FastAPI dependency injection
+- Protected API routes
+- Role-based access control
+- PostgreSQL integration with SQLAlchemy
+- Pydantic request validation
+- HTTP 401 vs 403 responses
+- API testing with Swagger/OpenAPI
+- Environment-based configuration
+- Deploying a Python API and PostgreSQL database to the cloud
 
-Potential improvements for the next version:
+---
 
-Refresh token implementation
-Token revocation / logout
-Redis-based token blacklist
-Rate limiting for authentication endpoints
-Email verification
-Password reset functionality
-Automated tests with Pytest
-Docker containerization
-CI/CD pipeline
-React frontend
-👨‍💻 Author
+## 🔮 Future Improvements
 
-Bachu Saketh
+- [ ] Refresh token implementation
+- [ ] Token revocation / logout
+- [ ] Redis-based token blacklist
+- [ ] Rate limiting for authentication endpoints
+- [ ] Email verification
+- [ ] Password reset functionality
+- [ ] Automated tests with Pytest
+- [ ] Docker containerization
+- [ ] CI/CD pipeline
+- [ ] React frontend
 
-Computer Science Engineer | Backend & GenAI Developer
+---
 
-GitHub: https://github.com/bachusaketh
+## 👨‍💻 Author
 
-📄 License
+**Bachu Saketh**  
+Computer Science Engineer | Backend & GenAI Developer  
+GitHub: [https://github.com/bachusaketh](https://github.com/bachusaketh)
+
+---
+
+## 📄 License
 
 This project is available for educational and portfolio purposes.
-
