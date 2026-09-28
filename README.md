@@ -296,4 +296,4 @@ GitHub: [https://github.com/bachusaketh](https://github.com/bachusaketh)
 
 ## 📄 License
 
-This project is available for educational and portfolio purposes.
+This project is licensed under the [MIT License](LICENSE).
